@@ -7,7 +7,7 @@
 (global-set-key (kbd "C-M-g") 'magit-status)
 
 ;; Smart tab behaviour. Completes or tabs depending on context.
-;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058.
+;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
 (global-set-key [(tab)] 'smart-tab)
 (defun smart-tab ()
   "This smart tab is minibuffer compliant: it acts as usual in
@@ -16,7 +16,8 @@
     current line."
   (interactive)
   (if (minibufferp)
-      ;; Do nothing in the minibuff.
+      ;; Perform the default behaviour. Do not do dabbrev-expand
+      (minibuffer-complete)
     (if mark-active
         (indent-region (region-beginning)
                        (region-end))
