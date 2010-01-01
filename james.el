@@ -45,6 +45,9 @@
 
 ;; Set our theme..
 ;; (color-theme-zenburn)
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
+(require 'color-theme)
+(color-theme-initialize)
 (load (concat dotfiles-dir "topfunky-theme.el"))
 (color-theme-topfunky)
 
