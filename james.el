@@ -65,6 +65,12 @@
 (add-to-list 'load-path (concat dotfiles-dir "vendor/nav"))
 (require 'nav)
 
+;; Use ack inplace of grep
+(custom-set-variables '(grep-program "ack -H -a --nogroup"))
+
+;; Disable auto-save. This avoids creating #blah.rb# files.
+(setq auto-save-default nil)
+
 ;; Centered cursor mode support
 (load (concat dotfiles-dir "vendor/centered-cursor-mode.el"))
 (require 'centered-cursor-mode)
