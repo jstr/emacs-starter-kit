@@ -1,5 +1,11 @@
 TODO:
 
+James's list:
+
+* Hippie_expand?
+
+Vendor list:
+
 Submit the packages in starter-kit-elpa.el to ELPA.
 
 Greg Newman is working on Python helpers.
@@ -12,5 +18,5 @@ to write/finish:
 * submit ruby fixes to flymake
 
 Bug fixes:
-get jabber.el to automatically disconnect when suspending/hibernating (via dbus)
+GET JABBER.EL TO automatically disconnect when suspending/hibernating (via dbus)
 ruby-compilation.el should auto-kill the buffer on successful test runs; only leave it open on error/fail
