@@ -10,6 +10,13 @@
 ;; Custom key binding for other-window
 (global-set-key (kbd "C-`") 'other-window)
 
+;; Kill current buffer without prompting
+(global-set-key (kbd "C-c k") 'kill-buffer-now)
+(defun kill-buffer-now ()
+  "Kill current buffer without prompting."
+  (interactive)
+  (kill-buffer (current-buffer)))
+
 ;; Smart tab behaviour. Completes or tabs depending on context.
 ;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
 (global-set-key [(tab)] 'smart-tab)
