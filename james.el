@@ -10,12 +10,22 @@
 ;; Custom key binding for other-window
 (global-set-key (kbd "C-`") 'other-window)
 
+;; Custom key binding for ido-imenu
+(global-set-key (kbd "C-.") 'ido-imenu)
+
 ;; Kill current buffer without prompting
 (global-set-key (kbd "C-c k") 'kill-buffer-now)
 (defun kill-buffer-now ()
   "Kill current buffer without prompting."
   (interactive)
   (kill-buffer (current-buffer)))
+
+;; Refresh gtags for current project.
+(defun reload-tags ()
+  "Rebuild gtags and visit tags table"
+  (interactive)
+  (shell-command "/usr/local/bin/ctags-create")
+  (visit-tags-table "TAGS"))
 
 ;; Smart tab behaviour. Completes or tabs depending on context.
 ;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
