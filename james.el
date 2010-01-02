@@ -65,8 +65,17 @@
 (add-to-list 'load-path (concat dotfiles-dir "vendor/nav"))
 (require 'nav)
 
+;; Centered cursor mode support
+(load (concat dotfiles-dir "vendor/centered-cursor-mode.el"))
+(require 'centered-cursor-mode)
+(global-centered-cursor-mode +1)
+
+;; Full ack support
+(load (concat dotfiles-dir "vendor/full-ack.el"))
+(autoload 'ack-same "full-ack" nil t)
+(autoload 'ack "full-ack" nil t)
+(autoload 'ack-find-same-file "full-ack" nil t)
+(autoload 'ack-find-file "full-ack" nil t)
+
 ;; Start emacsclient server for access from the command line.
 (server-start)
-
-;; Automatically start nav mode.
-;;(nav)

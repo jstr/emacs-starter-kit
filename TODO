@@ -4,7 +4,6 @@ James's list:
 
 Modes to check out:
 
-* centered-cursor: keeps current buffer centered based on your point location
 * full-ack: a nice interface to the Ack grep replacement utility
   (Hat tip to al3x for the above.. - see http://github.com/al3x/emacs)
 * Hippie-expand (alternative to dabbrev-expand - see http://www.xemacs.org/Documentation/packages/html/edit-utils_23.html)
