@@ -14,6 +14,7 @@
 (global-set-key (kbd "C-.") 'ido-imenu)
 
 ;; Tab shift support
+;; Cloned from http://www.emacswiki.org/emacs/IndentingText
 (defun shift-region (distance)
   (let ((mark (mark)))
     (save-excursion
