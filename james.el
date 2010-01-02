@@ -88,7 +88,7 @@
 (setq-default tab-stop-list (list 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108))
 
 ;; Set a custom frame width
-(add-to-list 'default-frame-alist '(width . 150))
+(add-to-list 'default-frame-alist '(width . 180))
 
 ;; Set our theme..
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
