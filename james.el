@@ -7,8 +7,9 @@
 (global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c n") 'nav)
 
-;; Custom key binding for other-window
+;; Custom key bindings for other-window
 (global-set-key (kbd "C-`") 'other-window)
+(global-set-key (kbd "s-`") 'other-window)
 
 ;; Custom key binding for ido-imenu
 (global-set-key (kbd "C-.") 'ido-imenu)
