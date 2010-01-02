@@ -4,7 +4,11 @@
 (textmate-mode)
 
 ;; Custom tab formatting stuff..
-(global-set-key (kbd "C-M-g") 'magit-status)
+(global-set-key (kbd "C-c g") 'magit-status)
+(global-set-key (kbd "C-c n") 'nav)
+
+;; Custom key binding for other-window
+(global-set-key (kbd "C-`") 'other-window)
 
 ;; Smart tab behaviour. Completes or tabs depending on context.
 ;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
@@ -18,12 +22,15 @@
   (if (minibufferp)
       ;; Perform the default behaviour. Do not do dabbrev-expand
       (minibuffer-complete)
-    (if mark-active
-        (indent-region (region-beginning)
-                       (region-end))
-      (if (looking-at "\\_>")
-          (dabbrev-expand nil)
-        (indent-for-tab-command)))))
+    (if (eq (symbol-value 'major-mode) 'shell-mode)
+        (unless (shell-dynamic-complete-command)
+          (shell-dynamic-complete-filename))
+      (if mark-active
+          (indent-region (region-beginning)
+                         (region-end))
+        (if (looking-at "\\_>")
+            (dabbrev-expand nil)
+          (indent-for-tab-command))))))
 
 ;; Duplicate line
 (defun duplicate-line ()
@@ -45,7 +52,6 @@
 (add-to-list 'default-frame-alist '(width . 150))
 
 ;; Set our theme..
-;; (color-theme-zenburn)
 (add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
 (require 'color-theme)
 (color-theme-initialize)
@@ -55,6 +61,12 @@
 ;; A large typeface if we want one...
 ;; (set-face-attribute 'default nil :height 140)
 
+;; Enable nav mode
+(add-to-list 'load-path (concat dotfiles-dir "vendor/nav"))
+(require 'nav)
+
 ;; Start emacsclient server for access from the command line.
 (server-start)
 
+;; Automatically start nav mode.
+;;(nav)
