@@ -1,7 +1,15 @@
 ;; Include Textmate minor node from Defunkt
-(add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
+(load (concat dotfiles-dir "vendor/textmate.el/textmate.el"))
 (require 'textmate)
 (textmate-mode)
+
+;; Include HAML major node from nex3
+(load (concat dotfiles-dir "vendor/haml-mode.el"))
+(require 'haml-mode)
+
+;; Include SASS major node from nex3
+(load (concat dotfiles-dir "vendor/sass-mode.el"))
+(require 'sass-mode)
 
 ;; Custom tab formatting stuff..
 (global-set-key (kbd "C-c g") 'magit-status)
@@ -52,6 +60,27 @@
   (interactive)
   (shell-command "/usr/local/bin/ctags-create")
   (visit-tags-table "TAGS"))
+
+;; Auto-indent yanked text in some major modes.
+;; Code from http://www.emacswiki.org/emacs/AutoIndentation
+(dolist (command '(yank yank-pop))
+  (eval `(defadvice ,command (after indent-region activate)
+           (and (not current-prefix-arg)
+                (member major-mode '(emacs-lisp-mode lisp-mode
+                                                     clojure-mode    scheme-mode
+                                                     haskell-mode    ruby-mode
+                                                     rspec-mode      python-mode
+                                                     c-mode          c++-mode
+                                                     objc-mode       latex-mode
+                                                     plain-tex-mode))
+                (let ((mark-even-if-inactive transient-mark-mode))
+                  (indent-region (region-beginning) (region-end) nil))))))
+
+;; Auto-indent upon RET in the following listed modes:
+(defun set-newline-and-indent ()
+      (local-set-key (kbd "RET") 'newline-and-indent))
+(add-hook 'lisp-mode-hook 'set-newline-and-indent)
+(add-hook 'ruby-mode-hook 'set-newline-and-indent)
 
 ;; Smart tab behaviour. Completes or tabs depending on context.
 ;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
