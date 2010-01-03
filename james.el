@@ -14,6 +14,9 @@
 ;; Custom key binding for ido-imenu
 (global-set-key (kbd "C-.") 'ido-imenu)
 
+;; Custom key binding for comment or uncomment
+(global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
+
 ;; Tab shift support
 ;; Cloned from http://www.emacswiki.org/emacs/IndentingText
 (defun shift-region (distance)
@@ -106,7 +109,8 @@
 (require 'nav)
 
 ;; Use ack inplace of grep
-(custom-set-variables '(grep-program "ack -H -a --nogroup"))
+;; Disabled temporarily.
+;; (custom-set-variables '(grep-program "ack -H -a --nogroup"))
 
 ;; Disable auto-save. This avoids creating #blah.rb# files.
 (setq auto-save-default nil)
