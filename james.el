@@ -62,7 +62,7 @@
   (visit-tags-table "TAGS"))
 
 ;; Auto-indent yanked text in some major modes.
-;; Code from http://www.emacswiki.org/emacs/AutoIndentation
+;; Code from http://www.emacswiki.org/emacs/AutoIndentationv
 (dolist (command '(yank yank-pop))
   (eval `(defadvice ,command (after indent-region activate)
            (and (not current-prefix-arg)
@@ -81,6 +81,11 @@
       (local-set-key (kbd "RET") 'newline-and-indent))
 (add-hook 'lisp-mode-hook 'set-newline-and-indent)
 (add-hook 'ruby-mode-hook 'set-newline-and-indent)
+
+;; Use electric mode in ruby-mode
+(load (concat dotfiles-dir "vendor/ruby-electric.el"))
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook (lambda () (ruby-electric-mode t)))
 
 ;; Smart tab behaviour. Completes or tabs depending on context.
 ;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
