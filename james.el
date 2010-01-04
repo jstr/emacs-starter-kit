@@ -1,15 +1,139 @@
-;; Include Textmate minor node from Defunkt
-(load (concat dotfiles-dir "vendor/textmate.el/textmate.el"))
+;; DESCRIPTION: jstr settings (heavily based upon topfunky settings)
+
+;; Manually set PATH for use by eshell, rspec-mode, etc.
+(let ((path))
+  (setq path (concat "/opt/ruby-enterprise/bin:"
+                     "~/bin:"
+                     "~/src/homebrew/bin:"
+                     "/usr/local/bin:"
+                     "/usr/bin:"
+                     "/bin"))
+  (setenv "PATH" path))
+
+(add-to-list 'load-path (concat dotfiles-dir "/vendor"))
+
+;; Save backups in one place
+;; Put autosave files (ie #foo#) in one place, *not*
+;; scattered all over the file system!
+(defvar autosave-dir
+  (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
+(make-directory autosave-dir t)
+
+(defun auto-save-file-name-p (filename)
+  (string-match "^#.*#$" (file-name-nondirectory filename)))
+
+(defun make-auto-save-file-name ()
+  (concat autosave-dir
+          (if buffer-file-name
+              (concat "#" (file-name-nondirectory buffer-file-name) "#")
+            (expand-file-name
+             (concat "#%" (buffer-name) "#")))))
+
+;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
+;; list contains regexp=>directory mappings; filenames matching a regexp are
+;; backed up in the corresponding directory. Emacs will mkdir it if necessary.)
+(defvar backup-dir (concat "/tmp/emacs_backups/" (user-login-name) "/"))
+(setq backup-directory-alist (list (cons "." backup-dir)))
+
+;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(setq default-tab-width 4)
+(setq-default tab-stop-list (list 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108))
+(setq tab-width 4)
+
+;; Custom frame width
+(add-to-list 'default-frame-alist '(width . 180))
+
+;; Open current file in TextMate.
+(defun textmate-open-buffer ()
+  (interactive)
+  (shell-command-to-string (concat "mate " buffer-file-name)))
+
+
+;; Plain Text
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of
+;;; fill-paragraph. Takes a multi-line paragraph and makes
+;;; it into a single line of text.
+(defun unfill-paragraph ()
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(defun refresh-file ()
+  (interactive)
+  (revert-buffer t t t))
+(global-set-key [f5] 'refresh-file)
+
+;; Snippets
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/yasnippet.el"))
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory (concat dotfiles-dir "/vendor/yasnippet.el/snippets"))
+
+;; Commands
+(require 'unbound)
+
+;; Minor Modes
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/textmate.el"))
 (require 'textmate)
 (textmate-mode)
+(require 'whitespace)
 
-;; Include HAML major node from nex3
-(load (concat dotfiles-dir "vendor/haml-mode.el"))
+;; Centered cursor mode support
+(load (concat dotfiles-dir "vendor/centered-cursor-mode.el"))
+(require 'centered-cursor-mode)
+(global-centered-cursor-mode +1)
+
+;; Major Modes
+
+;; Enable nav mode
+(add-to-list 'load-path (concat dotfiles-dir "vendor/nav"))
+(require 'nav)
+
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/rspec-mode"))
+(require 'rspec-mode)
+
+(require 'textile-mode)
+(add-to-list 'auto-mode-alist '("\\.textile\\'" . textile-mode))
+
+(autoload 'markdown-mode "markdown-mode.el"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.mdown\\'" . markdown-mode))
+
 (require 'haml-mode)
+(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 
-;; Include SASS major node from nex3
-(load (concat dotfiles-dir "vendor/sass-mode.el"))
 (require 'sass-mode)
+(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+
+(add-to-list 'auto-mode-alist '("\\.sake\\'" . ruby-mode))
+
+;; gist
+(require 'gist)
+
+;; Color Themes
+(add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
+(require 'color-theme)
+(color-theme-initialize)
+
+;; Functions
+
+(require 'line-num)
+
+;; Full screen toggle
+(defun toggle-fullscreen ()
+  (interactive)
+  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
+                                           nil
+                                         'fullboth)))
+(global-set-key (kbd "M-n") 'toggle-fullscreen)
+
+
+;; Keyboard
+
+;; Some Mac-friendly key counterparts
+(global-set-key (kbd "M-s") 'save-buffer)
+(global-set-key (kbd "M-z") 'undo)
 
 ;; Custom tab formatting stuff..
 (global-set-key (kbd "C-c g") 'magit-status)
@@ -25,28 +149,6 @@
 ;; Custom key binding for comment or uncomment
 (global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
-;; Tab shift support
-;; Cloned from http://www.emacswiki.org/emacs/IndentingText
-(defun shift-region (distance)
-  (let ((mark (mark)))
-    (save-excursion
-      (indent-rigidly (region-beginning) (region-end) distance)
-      (push-mark mark t t)
-      ;; Tell the command loop not to deactivate the mark
-      ;; for transient mark mode
-      (setq deactivate-mark nil))))
-
-(defun shift-right ()
-  (interactive)
-  (shift-region 1))
-
-(defun shift-left ()
-  (interactive)
-  (shift-region -1))
-
-(global-set-key (kbd "s-]") 'shift-right)
-(global-set-key (kbd "s-[") 'shift-left)
-
 ;; Kill current buffer without prompting
 (global-set-key (kbd "C-c k") 'kill-buffer-now)
 (defun kill-buffer-now ()
@@ -54,41 +156,13 @@
   (interactive)
   (kill-buffer (current-buffer)))
 
-;; Refresh gtags for current project.
+;; Refresh ctags for current project.
 (defun reload-tags ()
   "Rebuild gtags and visit tags table"
   (interactive)
   (shell-command "/usr/local/bin/ctags-create")
   (visit-tags-table "TAGS"))
 
-;; Auto-indent yanked text in some major modes.
-;; Code from http://www.emacswiki.org/emacs/AutoIndentationv
-(dolist (command '(yank yank-pop))
-  (eval `(defadvice ,command (after indent-region activate)
-           (and (not current-prefix-arg)
-                (member major-mode '(emacs-lisp-mode lisp-mode
-                                                     clojure-mode    scheme-mode
-                                                     haskell-mode    ruby-mode
-                                                     rspec-mode      python-mode
-                                                     c-mode          c++-mode
-                                                     objc-mode       latex-mode
-                                                     plain-tex-mode))
-                (let ((mark-even-if-inactive transient-mark-mode))
-                  (indent-region (region-beginning) (region-end) nil))))))
-
-;; Auto-indent upon RET in the following listed modes:
-(defun set-newline-and-indent ()
-      (local-set-key (kbd "RET") 'newline-and-indent))
-(add-hook 'lisp-mode-hook 'set-newline-and-indent)
-(add-hook 'ruby-mode-hook 'set-newline-and-indent)
-
-;; Use electric mode in ruby-mode
-(load (concat dotfiles-dir "vendor/ruby-electric.el"))
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook (lambda () (ruby-electric-mode t)))
-
-;; Smart tab behaviour. Completes or tabs depending on context.
-;; From a comment by Marius Andersen at http://emacsblog.org/2007/03/12/tab-completion-everywhere/#comment-14058
 (global-set-key [(tab)] 'smart-tab)
 (defun smart-tab ()
   "This smart tab is minibuffer compliant: it acts as usual in
@@ -111,55 +185,23 @@
 
 ;; Duplicate line
 (defun duplicate-line ()
-    "EASY"
-    (interactive)
-    (save-excursion
-      (let ((line-text (buffer-substring-no-properties
-                        (line-beginning-position)
-                        (line-end-position))))
-        (move-end-of-line 1)
-        (newline)
-        (insert line-text))))
+  "EASY"
+  (interactive)
+  (save-excursion
+    (let ((line-text (buffer-substring-no-properties
+                      (line-beginning-position)
+                      (line-end-position))))
+      (move-end-of-line 1)
+      (newline)
+      (insert line-text))))
 (global-set-key "\C-cd" 'duplicate-line)
 
-(setq-default tab-width 2)
-(setq-default tab-stop-list (list 4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108))
+;; Other
 
-;; Set a custom frame width
-(add-to-list 'default-frame-alist '(width . 180))
+(prefer-coding-system 'utf-8)
 
-;; Set our theme..
-(add-to-list 'load-path (concat dotfiles-dir "/vendor/color-theme"))
-(require 'color-theme)
-(color-theme-initialize)
+(server-start)
+
+;; Activate theme
 (load (concat dotfiles-dir "topfunky-theme.el"))
 (color-theme-topfunky)
-
-;; A large typeface if we want one...
-;; (set-face-attribute 'default nil :height 140)
-
-;; Enable nav mode
-(add-to-list 'load-path (concat dotfiles-dir "vendor/nav"))
-(require 'nav)
-
-;; Use ack inplace of grep
-;; Disabled temporarily.
-;; (custom-set-variables '(grep-program "ack -H -a --nogroup"))
-
-;; Disable auto-save. This avoids creating #blah.rb# files.
-(setq auto-save-default nil)
-
-;; Centered cursor mode support
-(load (concat dotfiles-dir "vendor/centered-cursor-mode.el"))
-(require 'centered-cursor-mode)
-(global-centered-cursor-mode +1)
-
-;; Full ack support
-(load (concat dotfiles-dir "vendor/full-ack.el"))
-(autoload 'ack-same "full-ack" nil t)
-(autoload 'ack "full-ack" nil t)
-(autoload 'ack-find-same-file "full-ack" nil t)
-(autoload 'ack-find-file "full-ack" nil t)
-
-;; Start emacsclient server for access from the command line.
-(server-start)
