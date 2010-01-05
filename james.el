@@ -121,13 +121,23 @@
 (require 'line-num)
 
 ;; Full screen toggle
-(defun toggle-fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
-                                           nil
-                                         'fullboth)))
-(global-set-key (kbd "M-n") 'toggle-fullscreen)
+;; Doesn't appear to work in Cocoa Emacs.
+;; (defun toggle-fullscreen ()
+;;   (interactive)
+;;   (set-frame-parameter nil 'fullscreen (if (frame-parameter nil 'fullscreen)
+;;                                            nil
+;;                                          'fullboth)))
+;; (global-set-key (kbd "M-n") 'toggle-fullscreen)
 
+;; Outdent
+(defun outdent ()
+  (interactive)
+  (move-beginning-of-line nil)
+  (push-mark)
+  (move-end-of-line nil)
+  (indent-rigidly (region-beginning) (region-end) (* -1 (symbol-value 'tab-width)))
+  (pop-mark))
+(global-set-key (kbd "S-<tab>") 'outdent)
 
 ;; Keyboard
 
