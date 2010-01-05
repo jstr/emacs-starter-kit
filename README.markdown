@@ -4,22 +4,18 @@ From Phil Hagelberg's emacs-starter-kit.
 
 ## Current or planned customizations by Geoffrey Grosenbach (topfunky)
 
-* Intended for use with [Carbon Emacs](http://www.google.com/search?hl=en-US&q=carbon+emacs&rls=0.4&client=stainless&ie=UTF-8)
+* Currently used with Cocoa Emacs (http://atomized.org/wp-content/cocoa-emacs-nightly/)
 * May have partially functional or half-implemented features. Try forking [the original from Phil](http://github.com/technomancy/emacs-starter-kit/tree/master) if you experience problems or want a fresh start.
 
 ### Some current additions
 
 * defunkt's [TextMate](http://github.com/defunkt/textmate.el/tree/master) minor-mode.
-* Some Mac key equivalents (Command-S, Command-Z).
 * Textile, Haml, Sass, etc.
 * Color themes.
-* yasnippet for TextMate-style snippets.
-* Useful functions such as toggle-fullscreen
-
-### Planned
-
-* More snippets
-* Better color theme
+* Snippets via yasnippet
+* Centered cursor mode
+* Nav
+* Some additional useful functions such as outdent (bound to shift-tab), smart-tab (tab or autocomplete depending on context), etc.
 
 # Description
 
@@ -29,10 +25,7 @@ working environment for anyone using Emacs for dynamic languages.
 
 ## Installation
 
-1. Install Emacs (at least version 22)
-   Use your package manager if you have one.
-   Otherwise, Mac users should get it [from Apple](http://www.apple.com/downloads/macosx/unix_open_source/carbonemacspackage.html).
-   Windows users can get it [from GNU](http://ftp.gnu.org/gnu/emacs/windows/emacs-22.3-bin-i386.zip).
+1. Install Emacs from http://atomized.org/wp-content/cocoa-emacs-nightly/
 2. Move the directory containing this file to ~/.emacs.d
 3. Launch Emacs!
 
