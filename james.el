@@ -130,6 +130,9 @@
 ;; (global-set-key (kbd "M-n") 'toggle-fullscreen)
 
 ;; Outdent
+;; TODO: Fix issue: does not function with tab width in document
+;; (e.g. ruby files) does not ==
+;; default-tab-width/tab-width. Investigate further.
 (defun outdent ()
   (interactive)
   (move-beginning-of-line nil)
@@ -213,7 +216,7 @@
   (end-of-line)
   (push-mark nil t t)
   (back-to-indentation))
-(global-set-key (kbd "C-c l") 'select-line)
+(global-set-key (kbd "C-c s") 'select-line)
 
 ;; Other
 
