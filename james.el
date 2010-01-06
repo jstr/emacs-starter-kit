@@ -206,6 +206,15 @@
       (insert line-text))))
 (global-set-key "\C-cd" 'duplicate-line)
 
+;; Select current line and move cursor to end of line
+(defun select-line ()
+  "Selects the current line."
+  (interactive)
+  (end-of-line)
+  (push-mark nil t t)
+  (back-to-indentation))
+(global-set-key (kbd "C-c l") 'select-line)
+
 ;; Other
 
 (prefer-coding-system 'utf-8)
