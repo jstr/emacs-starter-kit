@@ -86,6 +86,11 @@
 
 ;; Major Modes
 
+;; Enable javascript-mode
+(autoload 'javascript-mode "javascript-mode.el"
+  "Major mode for editing JavaScript files" t)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+
 ;; Enable nav mode
 (add-to-list 'load-path (concat dotfiles-dir "vendor/nav"))
 (require 'nav)
