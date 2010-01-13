@@ -230,5 +230,4 @@
 (server-start)
 
 ;; Activate theme
-(load (concat dotfiles-dir "topfunky-theme.el"))
-(color-theme-topfunky)
+(color-theme-high-contrast)
