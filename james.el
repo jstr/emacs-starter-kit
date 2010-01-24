@@ -230,4 +230,6 @@
 (server-start)
 
 ;; Activate theme
-(color-theme-high-contrast)
+(load (concat dotfiles-dir "color-theme-github.el"))
+(color-theme-github)
+
