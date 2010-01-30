@@ -167,6 +167,9 @@
 ;; Custom key binding for comment or uncomment
 (global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
+;; Custom key binding for goto-line
+(global-set-key (kbd "C-x t") 'goto-line)
+
 ;; Kill current buffer without prompting
 (global-set-key (kbd "C-c k") 'kill-buffer-now)
 (defun kill-buffer-now ()
