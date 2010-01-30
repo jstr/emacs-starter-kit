@@ -154,7 +154,6 @@
 (global-set-key (kbd "M-z") 'undo)
 
 ;; Custom tab formatting stuff..
-(global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c n") 'nav)
 
 ;; Custom key bindings for other-window
@@ -168,7 +167,7 @@
 (global-set-key (kbd "C-/") 'comment-or-uncomment-region-or-line)
 
 ;; Custom key binding for goto-line
-(global-set-key (kbd "C-x t") 'goto-line)
+(global-set-key (kbd "C-c g") 'goto-line)
 
 ;; Kill current buffer without prompting
 (global-set-key (kbd "C-c k") 'kill-buffer-now)
