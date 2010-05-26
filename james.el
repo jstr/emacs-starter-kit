@@ -238,3 +238,5 @@
 (load (concat dotfiles-dir "color-theme-github.el"))
 (color-theme-github)
 
+;; Enable org-mode drawers
+(setq org-mode-drawers t)
