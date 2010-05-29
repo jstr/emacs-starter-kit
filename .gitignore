@@ -10,3 +10,4 @@ places
 /auto-save-list/*
 /tramp
 /vendor/nav/.#nav.el
+/.org-id-locations

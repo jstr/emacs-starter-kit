@@ -43,6 +43,7 @@
 
 ;; Custom frame width
 (add-to-list 'default-frame-alist '(width . 180))
+(add-to-list 'default-frame-alist '(height . 50))
 
 ;; Open current file in TextMate.
 (defun textmate-open-buffer ()
@@ -238,11 +239,9 @@
 (load (concat dotfiles-dir "color-theme-github.el"))
 (color-theme-github)
 
-;; Enable org-mode drawers
-(setq org-mode-drawers t)
-
 ;; Use pretty-greek mode. Code from http://www.emacswiki.org/emacs/PrettyGreek.
 (defun pretty-greek ()
+  (interactive)
   (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
     (loop for word in greek
           for code = 97 then (+ 1 code)
@@ -256,5 +255,14 @@
                                            (0 (progn (compose-region (match-beginning 2) (match-end 2)
                                                                      ,greek-char)
                                                      nil)))))))))
-(pretty-greek)
+
+;; Use pretty-greek only in appropriate modes..
+(add-hook 'org-mode-hook 'pretty-greek)
+(add-hook 'text-mode 'pretty-greek)
+
+;; Use clean view mode in org-mode..
+(add-hook 'org-mode-hook 'org-indent-mode)
+
+;; Global store an org link to current logication
+(global-set-key "\C-cl" 'org-store-link)
 
